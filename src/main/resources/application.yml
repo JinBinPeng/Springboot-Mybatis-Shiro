@@ -1,0 +1,12 @@
+spring:
+    datasource:
+      url: jdbc:mysql://localhost:3306/test1
+      username: root
+      password: 1997
+      driver-class-name: com.mysql.jdbc.Driver
+    thymeleaf:
+       cache: false
+       mode: LEGACYHTML5
+mybatis:
+  type-aliases-package: com.pjb.entity
+  mapper-locations: classpath*:com.pjb.mapper/*.xml
