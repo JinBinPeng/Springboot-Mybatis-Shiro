@@ -48,7 +48,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm()); //将Realm注入到SecurityManager中。
         securityManager.setCacheManager(ehCacheManager()); //注入缓存对象。
-        securityManager.setRememberMeManager(cookieRememberMeManager()); //注入rememberMeManager;
+        securityManager.setRememberMeManager(cookieRememberMeManager());//注入rememberMeManager;
         return securityManager;
     }
 
@@ -63,8 +63,10 @@ public class ShiroConfig {
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");//散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashIterations(2);//散列的次数，比如散列两次，相当于 md5(md5(""));
+        //散列算法:这里使用MD5算法;
+        hashedCredentialsMatcher.setHashAlgorithmName("md5");
+        //散列的次数，比如散列两次，相当于 md5(md5(""));
+        hashedCredentialsMatcher.setHashIterations(2);
         return hashedCredentialsMatcher;
     }
     /**
@@ -89,27 +91,28 @@ public class ShiroConfig {
     }
     @Bean
     public EhCacheManager ehCacheManager() {
-        System.out.println("ShiroConfiguration.getEhCacheManager()");
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
         return ehCacheManager;
     }
-    //cookie对象;
+
+    /**
+     * cookie对象;
+     */
     @Bean
     public SimpleCookie rememberMeCookie() {
-        System.out.println("ShiroConfiguration.rememberMeCookie()");
         //这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-
         //<!-- 记住我cookie生效时间30天 ,单位秒;-->
         simpleCookie.setMaxAge(259200);
         return simpleCookie;
     }
 
-    //cookie管理对象;
+    /**
+     * cookie管理对象;
+     */
     @Bean
     public CookieRememberMeManager cookieRememberMeManager() {
-        System.out.println("ShiroConfiguration.rememberMeManager()");
         CookieRememberMeManager manager = new CookieRememberMeManager();
         manager.setCookie(rememberMeCookie());
         return manager;

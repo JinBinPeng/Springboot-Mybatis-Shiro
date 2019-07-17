@@ -57,12 +57,11 @@ public class MyShiroRealm extends AuthorizingRealm {
             ////没有返回登录用户名对应的SimpleAuthenticationInfo对象时,就会在LoginController中抛出UnknownAccountException异常
             return null;
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+        return new SimpleAuthenticationInfo(
                 userInfo, //用户名
                 userInfo.getPassword(), //密码
                 ByteSource.Util.bytes(userInfo.getCredentialsSalt()),//salt=username+salt
                 getName()  //realm name
         );
-        return authenticationInfo;
     }
 }
